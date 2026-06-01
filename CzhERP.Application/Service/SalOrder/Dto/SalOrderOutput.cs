@@ -1,0 +1,169 @@
+﻿// Admin.NET 项目的版权、商标、专利和其他相关权利均受相应法律法规的保护。使用本项目应遵守相关法律法规和许可证的要求。
+//
+// 本项目主要遵循 MIT 许可证和 Apache 许可证（版本 2.0）进行分发和使用。许可证位于源代码树根目录中的 LICENSE-MIT 和 LICENSE-APACHE 文件。
+//
+// 不得利用本项目从事危害国家安全、扰乱社会秩序、侵犯他人合法权益等法律法规禁止的活动！任何基于本项目二次开发而产生的一切法律纠纷和责任，我们不承担任何责任！
+using Magicodes.ExporterAndImporter.Core;
+namespace CzhERP.Application;
+
+/// <summary>
+/// 销售订单输出参数
+/// </summary>
+public class SalOrderOutput
+{
+    /// <summary>
+    /// 主键Id
+    /// </summary>
+    public long Id { get; set; }    
+    
+    /// <summary>
+    /// 订单号
+    /// </summary>
+    public string OrderNo { get; set; }    
+    
+    /// <summary>
+    /// 客户ID
+    /// </summary>
+    public long CustomerId { get; set; }    
+    
+    /// <summary>
+    /// 客户名称
+    /// </summary>
+    public string CustomerName { get; set; }    
+    
+    /// <summary>
+    /// 联系人姓名
+    /// </summary>
+    public string? ContactName { get; set; }    
+    
+    /// <summary>
+    /// 联系电话
+    /// </summary>
+    public string? ContactPhone { get; set; }    
+    
+    /// <summary>
+    /// 下单日期
+    /// </summary>
+    public DateTime OrderDate { get; set; }    
+    
+    /// <summary>
+    /// 预计交货日期
+    /// </summary>
+    public DateTime? DeliveryDate { get; set; }    
+    
+    /// <summary>
+    /// 送货地址
+    /// </summary>
+    public string? Address { get; set; }    
+    
+    /// <summary>
+    /// 配送方式
+    /// </summary>
+    public string? ShippingMethod { get; set; }    
+    
+    /// <summary>
+    /// 运费
+    /// </summary>
+    public decimal ShippingFee { get; set; }    
+    
+    /// <summary>
+    /// 总金额
+    /// </summary>
+    public decimal TotalAmount { get; set; }    
+    
+    /// <summary>
+    /// 总税额
+    /// </summary>
+    public decimal TotalTaxAmount { get; set; }    
+    
+    /// <summary>
+    /// 总折扣
+    /// </summary>
+    public decimal TotalDiscount { get; set; }    
+    
+    /// <summary>
+    /// 已付款金额
+    /// </summary>
+    public decimal PayAmount { get; set; }    
+    
+    /// <summary>
+    /// 付款方式
+    /// </summary>
+    public string? PaymentType { get; set; }    
+    
+    /// <summary>
+    /// 状态
+    /// </summary>
+    public string Status { get; set; }    
+    
+    /// <summary>
+    /// 信用检查结果
+    /// </summary>
+    public string? CreditCheckResult { get; set; }    
+    
+    /// <summary>
+    /// 本次使用信用额度
+    /// </summary>
+    public decimal CreditUsedAmount { get; set; }    
+    
+    /// <summary>
+    /// 审批人ID
+    /// </summary>
+    public long? ApprovalUserId { get; set; }    
+    
+    /// <summary>
+    /// 审批时间
+    /// </summary>
+    public DateTime? ApprovalTime { get; set; }    
+    
+    /// <summary>
+    /// 审批备注
+    /// </summary>
+    public string? ApprovalRemark { get; set; }    
+    
+    /// <summary>
+    /// 备注
+    /// </summary>
+    public string? Remark { get; set; }    
+    
+    /// <summary>
+    /// 创建时间
+    /// </summary>
+    public DateTime? CreateTime { get; set; }    
+    
+    /// <summary>
+    /// 更新时间
+    /// </summary>
+    public DateTime? UpdateTime { get; set; }    
+    
+    /// <summary>
+    /// 创建者Id
+    /// </summary>
+    public long? CreateUserId { get; set; }    
+    
+    /// <summary>
+    /// 创建者姓名
+    /// </summary>
+    public string? CreateUserName { get; set; }    
+    
+    /// <summary>
+    /// 修改者Id
+    /// </summary>
+    public long? UpdateUserId { get; set; }    
+    
+    /// <summary>
+    /// 修改者姓名
+    /// </summary>
+    public string? UpdateUserName { get; set; }    
+    
+}
+
+/// <summary>
+/// 销售订单数据导入模板实体
+/// </summary>
+public class ExportSalOrderOutput : ImportSalOrderInput
+{
+    [ImporterHeader(IsIgnore = true)]
+    [ExporterHeader(IsIgnore = true)]
+    public override string Error { get; set; }
+}

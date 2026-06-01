@@ -1,0 +1,644 @@
+﻿// Admin.NET 项目的版权、商标、专利和其他相关权利均受相应法律法规的保护。使用本项目应遵守相关法律法规和许可证的要求。
+//
+// 本项目主要遵循 MIT 许可证和 Apache 许可证（版本 2.0）进行分发和使用。许可证位于源代码树根目录中的 LICENSE-MIT 和 LICENSE-APACHE 文件。
+//
+// 不得利用本项目从事危害国家安全、扰乱社会秩序、侵犯他人合法权益等法律法规禁止的活动！任何基于本项目二次开发而产生的一切法律纠纷和责任，我们不承担任何责任！
+
+using Admin.NET.Core;
+using System.ComponentModel.DataAnnotations;
+using Magicodes.ExporterAndImporter.Core;
+using Magicodes.ExporterAndImporter.Excel;
+
+namespace CzhERP.Application;
+
+/// <summary>
+/// 应付账款表基础输入参数
+/// </summary>
+public class FinPayableBaseInput
+{
+    /// <summary>
+    /// 主键Id
+    /// </summary>
+    public virtual long? Id { get; set; }
+    
+    /// <summary>
+    /// 应付单号
+    /// </summary>
+    [Required(ErrorMessage = "应付单号不能为空")]
+    public virtual string PayableNo { get; set; }
+    
+    /// <summary>
+    /// 供应商ID
+    /// </summary>
+    [Required(ErrorMessage = "供应商ID不能为空")]
+    public virtual long? SupplierId { get; set; }
+    
+    /// <summary>
+    /// 供应商编码
+    /// </summary>
+    [Required(ErrorMessage = "供应商编码不能为空")]
+    public virtual string SupplierCode { get; set; }
+    
+    /// <summary>
+    /// 供应商名称
+    /// </summary>
+    [Required(ErrorMessage = "供应商名称不能为空")]
+    public virtual string SupplierName { get; set; }
+    
+    /// <summary>
+    /// 来源单据类型
+    /// </summary>
+    public virtual string? SourceType { get; set; }
+    
+    /// <summary>
+    /// 来源单据ID
+    /// </summary>
+    public virtual long? SourceId { get; set; }
+    
+    /// <summary>
+    /// 来源单据号
+    /// </summary>
+    public virtual string? SourceNo { get; set; }
+    
+    /// <summary>
+    /// 单据日期
+    /// </summary>
+    [Required(ErrorMessage = "单据日期不能为空")]
+    public virtual DateTime BillDate { get; set; }
+    
+    /// <summary>
+    /// 到期日期
+    /// </summary>
+    public virtual DateTime? DueDate { get; set; }
+    
+    /// <summary>
+    /// 应付金额
+    /// </summary>
+    [Required(ErrorMessage = "应付金额不能为空")]
+    public virtual decimal? Amount { get; set; }
+    
+    /// <summary>
+    /// 已付金额
+    /// </summary>
+    [Required(ErrorMessage = "已付金额不能为空")]
+    public virtual decimal? PaidAmount { get; set; }
+    
+    /// <summary>
+    /// 未付金额
+    /// </summary>
+    [Required(ErrorMessage = "未付金额不能为空")]
+    public virtual decimal? UnpaidAmount { get; set; }
+    
+    /// <summary>
+    /// 逾期天数
+    /// </summary>
+    [Required(ErrorMessage = "逾期天数不能为空")]
+    public virtual int? OverdueDays { get; set; }
+    
+    /// <summary>
+    /// 状态
+    /// </summary>
+    [Required(ErrorMessage = "状态不能为空")]
+    public virtual string Status { get; set; }
+    
+    /// <summary>
+    /// 采购员ID
+    /// </summary>
+    public virtual long? PurchaserId { get; set; }
+    
+    /// <summary>
+    /// 采购员姓名
+    /// </summary>
+    public virtual string? PurchaserName { get; set; }
+    
+    /// <summary>
+    /// 部门ID
+    /// </summary>
+    public virtual long? DepartmentId { get; set; }
+    
+    /// <summary>
+    /// 部门名称
+    /// </summary>
+    public virtual string? DepartmentName { get; set; }
+    
+    /// <summary>
+    /// 备注
+    /// </summary>
+    public virtual string? Remark { get; set; }
+    
+}
+
+/// <summary>
+/// 应付账款表分页查询输入参数
+/// </summary>
+public class PageFinPayableInput : BasePageInput
+{
+    /// <summary>
+    /// 应付单号
+    /// </summary>
+    public string PayableNo { get; set; }
+    
+    /// <summary>
+    /// 供应商ID
+    /// </summary>
+    public long? SupplierId { get; set; }
+    
+    /// <summary>
+    /// 供应商编码
+    /// </summary>
+    public string SupplierCode { get; set; }
+    
+    /// <summary>
+    /// 供应商名称
+    /// </summary>
+    public string SupplierName { get; set; }
+    
+    /// <summary>
+    /// 来源单据类型
+    /// </summary>
+    public string? SourceType { get; set; }
+    
+    /// <summary>
+    /// 来源单据ID
+    /// </summary>
+    public long? SourceId { get; set; }
+    
+    /// <summary>
+    /// 来源单据号
+    /// </summary>
+    public string? SourceNo { get; set; }
+    
+    /// <summary>
+    /// 单据日期范围
+    /// </summary>
+     public DateTime?[] BillDateRange { get; set; }
+    
+    /// <summary>
+    /// 到期日期范围
+    /// </summary>
+     public DateTime?[] DueDateRange { get; set; }
+    
+    /// <summary>
+    /// 应付金额
+    /// </summary>
+    public decimal? Amount { get; set; }
+    
+    /// <summary>
+    /// 已付金额
+    /// </summary>
+    public decimal? PaidAmount { get; set; }
+    
+    /// <summary>
+    /// 未付金额
+    /// </summary>
+    public decimal? UnpaidAmount { get; set; }
+    
+    /// <summary>
+    /// 逾期天数
+    /// </summary>
+    public int? OverdueDays { get; set; }
+    
+    /// <summary>
+    /// 状态
+    /// </summary>
+    public string Status { get; set; }
+    
+    /// <summary>
+    /// 采购员ID
+    /// </summary>
+    public long? PurchaserId { get; set; }
+    
+    /// <summary>
+    /// 采购员姓名
+    /// </summary>
+    public string? PurchaserName { get; set; }
+    
+    /// <summary>
+    /// 部门ID
+    /// </summary>
+    public long? DepartmentId { get; set; }
+    
+    /// <summary>
+    /// 部门名称
+    /// </summary>
+    public string? DepartmentName { get; set; }
+    
+    /// <summary>
+    /// 备注
+    /// </summary>
+    public string? Remark { get; set; }
+    
+    /// <summary>
+    /// 选中主键列表
+    /// </summary>
+     public List<long> SelectKeyList { get; set; }
+}
+
+/// <summary>
+/// 应付账款表增加输入参数
+/// </summary>
+public class AddFinPayableInput
+{
+    /// <summary>
+    /// 应付单号
+    /// </summary>
+    [Required(ErrorMessage = "应付单号不能为空")]
+    [MaxLength(50, ErrorMessage = "应付单号字符长度不能超过50")]
+    public string PayableNo { get; set; }
+    
+    /// <summary>
+    /// 供应商ID
+    /// </summary>
+    [Required(ErrorMessage = "供应商ID不能为空")]
+    public long? SupplierId { get; set; }
+    
+    /// <summary>
+    /// 供应商编码
+    /// </summary>
+    [Required(ErrorMessage = "供应商编码不能为空")]
+    [MaxLength(50, ErrorMessage = "供应商编码字符长度不能超过50")]
+    public string SupplierCode { get; set; }
+    
+    /// <summary>
+    /// 供应商名称
+    /// </summary>
+    [Required(ErrorMessage = "供应商名称不能为空")]
+    [MaxLength(100, ErrorMessage = "供应商名称字符长度不能超过100")]
+    public string SupplierName { get; set; }
+    
+    /// <summary>
+    /// 来源单据类型
+    /// </summary>
+    [MaxLength(50, ErrorMessage = "来源单据类型字符长度不能超过50")]
+    public string? SourceType { get; set; }
+    
+    /// <summary>
+    /// 来源单据ID
+    /// </summary>
+    public long? SourceId { get; set; }
+    
+    /// <summary>
+    /// 来源单据号
+    /// </summary>
+    [MaxLength(50, ErrorMessage = "来源单据号字符长度不能超过50")]
+    public string? SourceNo { get; set; }
+    
+    /// <summary>
+    /// 单据日期
+    /// </summary>
+    [Required(ErrorMessage = "单据日期不能为空")]
+    public DateTime BillDate { get; set; }
+    
+    /// <summary>
+    /// 到期日期
+    /// </summary>
+    public DateTime? DueDate { get; set; }
+    
+    /// <summary>
+    /// 应付金额
+    /// </summary>
+    [Required(ErrorMessage = "应付金额不能为空")]
+    public decimal? Amount { get; set; }
+    
+    /// <summary>
+    /// 已付金额
+    /// </summary>
+    [Required(ErrorMessage = "已付金额不能为空")]
+    public decimal? PaidAmount { get; set; }
+    
+    /// <summary>
+    /// 未付金额
+    /// </summary>
+    [Required(ErrorMessage = "未付金额不能为空")]
+    public decimal? UnpaidAmount { get; set; }
+    
+    /// <summary>
+    /// 逾期天数
+    /// </summary>
+    [Required(ErrorMessage = "逾期天数不能为空")]
+    public int? OverdueDays { get; set; }
+    
+    /// <summary>
+    /// 状态
+    /// </summary>
+    [Required(ErrorMessage = "状态不能为空")]
+    [MaxLength(20, ErrorMessage = "状态字符长度不能超过20")]
+    public string Status { get; set; }
+    
+    /// <summary>
+    /// 采购员ID
+    /// </summary>
+    public long? PurchaserId { get; set; }
+    
+    /// <summary>
+    /// 采购员姓名
+    /// </summary>
+    [MaxLength(50, ErrorMessage = "采购员姓名字符长度不能超过50")]
+    public string? PurchaserName { get; set; }
+    
+    /// <summary>
+    /// 部门ID
+    /// </summary>
+    public long? DepartmentId { get; set; }
+    
+    /// <summary>
+    /// 部门名称
+    /// </summary>
+    [MaxLength(100, ErrorMessage = "部门名称字符长度不能超过100")]
+    public string? DepartmentName { get; set; }
+    
+    /// <summary>
+    /// 备注
+    /// </summary>
+    [MaxLength(500, ErrorMessage = "备注字符长度不能超过500")]
+    public string? Remark { get; set; }
+    
+}
+
+/// <summary>
+/// 应付账款表删除输入参数
+/// </summary>
+public class DeleteFinPayableInput
+{
+    /// <summary>
+    /// 主键Id
+    /// </summary>
+    [Required(ErrorMessage = "主键Id不能为空")]
+    public long? Id { get; set; }
+    
+}
+
+/// <summary>
+/// 应付账款表更新输入参数
+/// </summary>
+public class UpdateFinPayableInput
+{
+    /// <summary>
+    /// 主键Id
+    /// </summary>    
+    [Required(ErrorMessage = "主键Id不能为空")]
+    public long? Id { get; set; }
+    
+    /// <summary>
+    /// 应付单号
+    /// </summary>    
+    [Required(ErrorMessage = "应付单号不能为空")]
+    [MaxLength(50, ErrorMessage = "应付单号字符长度不能超过50")]
+    public string PayableNo { get; set; }
+    
+    /// <summary>
+    /// 供应商ID
+    /// </summary>    
+    [Required(ErrorMessage = "供应商ID不能为空")]
+    public long? SupplierId { get; set; }
+    
+    /// <summary>
+    /// 供应商编码
+    /// </summary>    
+    [Required(ErrorMessage = "供应商编码不能为空")]
+    [MaxLength(50, ErrorMessage = "供应商编码字符长度不能超过50")]
+    public string SupplierCode { get; set; }
+    
+    /// <summary>
+    /// 供应商名称
+    /// </summary>    
+    [Required(ErrorMessage = "供应商名称不能为空")]
+    [MaxLength(100, ErrorMessage = "供应商名称字符长度不能超过100")]
+    public string SupplierName { get; set; }
+    
+    /// <summary>
+    /// 来源单据类型
+    /// </summary>    
+    [MaxLength(50, ErrorMessage = "来源单据类型字符长度不能超过50")]
+    public string? SourceType { get; set; }
+    
+    /// <summary>
+    /// 来源单据ID
+    /// </summary>    
+    public long? SourceId { get; set; }
+    
+    /// <summary>
+    /// 来源单据号
+    /// </summary>    
+    [MaxLength(50, ErrorMessage = "来源单据号字符长度不能超过50")]
+    public string? SourceNo { get; set; }
+    
+    /// <summary>
+    /// 单据日期
+    /// </summary>    
+    [Required(ErrorMessage = "单据日期不能为空")]
+    public DateTime BillDate { get; set; }
+    
+    /// <summary>
+    /// 到期日期
+    /// </summary>    
+    public DateTime? DueDate { get; set; }
+    
+    /// <summary>
+    /// 应付金额
+    /// </summary>    
+    [Required(ErrorMessage = "应付金额不能为空")]
+    public decimal? Amount { get; set; }
+    
+    /// <summary>
+    /// 已付金额
+    /// </summary>    
+    [Required(ErrorMessage = "已付金额不能为空")]
+    public decimal? PaidAmount { get; set; }
+    
+    /// <summary>
+    /// 未付金额
+    /// </summary>    
+    [Required(ErrorMessage = "未付金额不能为空")]
+    public decimal? UnpaidAmount { get; set; }
+    
+    /// <summary>
+    /// 逾期天数
+    /// </summary>    
+    [Required(ErrorMessage = "逾期天数不能为空")]
+    public int? OverdueDays { get; set; }
+    
+    /// <summary>
+    /// 状态
+    /// </summary>    
+    [Required(ErrorMessage = "状态不能为空")]
+    [MaxLength(20, ErrorMessage = "状态字符长度不能超过20")]
+    public string Status { get; set; }
+    
+    /// <summary>
+    /// 采购员ID
+    /// </summary>    
+    public long? PurchaserId { get; set; }
+    
+    /// <summary>
+    /// 采购员姓名
+    /// </summary>    
+    [MaxLength(50, ErrorMessage = "采购员姓名字符长度不能超过50")]
+    public string? PurchaserName { get; set; }
+    
+    /// <summary>
+    /// 部门ID
+    /// </summary>    
+    public long? DepartmentId { get; set; }
+    
+    /// <summary>
+    /// 部门名称
+    /// </summary>    
+    [MaxLength(100, ErrorMessage = "部门名称字符长度不能超过100")]
+    public string? DepartmentName { get; set; }
+    
+    /// <summary>
+    /// 备注
+    /// </summary>    
+    [MaxLength(500, ErrorMessage = "备注字符长度不能超过500")]
+    public string? Remark { get; set; }
+    
+}
+
+/// <summary>
+/// 应付账款表主键查询输入参数
+/// </summary>
+public class QueryByIdFinPayableInput : DeleteFinPayableInput
+{
+}
+
+/// <summary>
+/// 应付账款表数据导入实体
+/// </summary>
+[ExcelImporter(SheetIndex = 1, IsOnlyErrorRows = true)]
+public class ImportFinPayableInput : BaseImportInput
+{
+    /// <summary>
+    /// 应付单号
+    /// </summary>
+    [ImporterHeader(Name = "*应付单号")]
+    [ExporterHeader("*应付单号", Format = "", Width = 25, IsBold = true)]
+    public string PayableNo { get; set; }
+    
+    /// <summary>
+    /// 供应商ID
+    /// </summary>
+    [ImporterHeader(Name = "*供应商ID")]
+    [ExporterHeader("*供应商ID", Format = "", Width = 25, IsBold = true)]
+    public long? SupplierId { get; set; }
+    
+    /// <summary>
+    /// 供应商编码
+    /// </summary>
+    [ImporterHeader(Name = "*供应商编码")]
+    [ExporterHeader("*供应商编码", Format = "", Width = 25, IsBold = true)]
+    public string SupplierCode { get; set; }
+    
+    /// <summary>
+    /// 供应商名称
+    /// </summary>
+    [ImporterHeader(Name = "*供应商名称")]
+    [ExporterHeader("*供应商名称", Format = "", Width = 25, IsBold = true)]
+    public string SupplierName { get; set; }
+    
+    /// <summary>
+    /// 来源单据类型
+    /// </summary>
+    [ImporterHeader(Name = "来源单据类型")]
+    [ExporterHeader("来源单据类型", Format = "", Width = 25, IsBold = true)]
+    public string? SourceType { get; set; }
+    
+    /// <summary>
+    /// 来源单据ID
+    /// </summary>
+    [ImporterHeader(Name = "来源单据ID")]
+    [ExporterHeader("来源单据ID", Format = "", Width = 25, IsBold = true)]
+    public long? SourceId { get; set; }
+    
+    /// <summary>
+    /// 来源单据号
+    /// </summary>
+    [ImporterHeader(Name = "来源单据号")]
+    [ExporterHeader("来源单据号", Format = "", Width = 25, IsBold = true)]
+    public string? SourceNo { get; set; }
+    
+    /// <summary>
+    /// 单据日期
+    /// </summary>
+    [ImporterHeader(Name = "*单据日期")]
+    [ExporterHeader("*单据日期", Format = "", Width = 25, IsBold = true)]
+    public DateTime BillDate { get; set; }
+    
+    /// <summary>
+    /// 到期日期
+    /// </summary>
+    [ImporterHeader(Name = "到期日期")]
+    [ExporterHeader("到期日期", Format = "", Width = 25, IsBold = true)]
+    public DateTime? DueDate { get; set; }
+    
+    /// <summary>
+    /// 应付金额
+    /// </summary>
+    [ImporterHeader(Name = "*应付金额")]
+    [ExporterHeader("*应付金额", Format = "", Width = 25, IsBold = true)]
+    public decimal? Amount { get; set; }
+    
+    /// <summary>
+    /// 已付金额
+    /// </summary>
+    [ImporterHeader(Name = "*已付金额")]
+    [ExporterHeader("*已付金额", Format = "", Width = 25, IsBold = true)]
+    public decimal? PaidAmount { get; set; }
+    
+    /// <summary>
+    /// 未付金额
+    /// </summary>
+    [ImporterHeader(Name = "*未付金额")]
+    [ExporterHeader("*未付金额", Format = "", Width = 25, IsBold = true)]
+    public decimal? UnpaidAmount { get; set; }
+    
+    /// <summary>
+    /// 逾期天数
+    /// </summary>
+    [ImporterHeader(Name = "*逾期天数")]
+    [ExporterHeader("*逾期天数", Format = "", Width = 25, IsBold = true)]
+    public int? OverdueDays { get; set; }
+    
+    /// <summary>
+    /// 状态
+    /// </summary>
+    [ImporterHeader(Name = "*状态")]
+    [ExporterHeader("*状态", Format = "", Width = 25, IsBold = true)]
+    public string Status { get; set; }
+    
+    /// <summary>
+    /// 采购员ID
+    /// </summary>
+    [ImporterHeader(Name = "采购员ID")]
+    [ExporterHeader("采购员ID", Format = "", Width = 25, IsBold = true)]
+    public long? PurchaserId { get; set; }
+    
+    /// <summary>
+    /// 采购员姓名
+    /// </summary>
+    [ImporterHeader(Name = "采购员姓名")]
+    [ExporterHeader("采购员姓名", Format = "", Width = 25, IsBold = true)]
+    public string? PurchaserName { get; set; }
+    
+    /// <summary>
+    /// 部门ID
+    /// </summary>
+    [ImporterHeader(Name = "部门ID")]
+    [ExporterHeader("部门ID", Format = "", Width = 25, IsBold = true)]
+    public long? DepartmentId { get; set; }
+    
+    /// <summary>
+    /// 部门名称
+    /// </summary>
+    [ImporterHeader(Name = "部门名称")]
+    [ExporterHeader("部门名称", Format = "", Width = 25, IsBold = true)]
+    public string? DepartmentName { get; set; }
+    
+    /// <summary>
+    /// 备注
+    /// </summary>
+    [ImporterHeader(Name = "备注")]
+    [ExporterHeader("备注", Format = "", Width = 25, IsBold = true)]
+    public string? Remark { get; set; }
+    
+}

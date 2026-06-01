@@ -1,0 +1,473 @@
+﻿// Admin.NET 项目的版权、商标、专利和其他相关权利均受相应法律法规的保护。使用本项目应遵守相关法律法规和许可证的要求。
+//
+// 本项目主要遵循 MIT 许可证和 Apache 许可证（版本 2.0）进行分发和使用。许可证位于源代码树根目录中的 LICENSE-MIT 和 LICENSE-APACHE 文件。
+//
+// 不得利用本项目从事危害国家安全、扰乱社会秩序、侵犯他人合法权益等法律法规禁止的活动！任何基于本项目二次开发而产生的一切法律纠纷和责任，我们不承担任何责任！
+
+using Admin.NET.Core;
+using System.ComponentModel.DataAnnotations;
+using Magicodes.ExporterAndImporter.Core;
+using Magicodes.ExporterAndImporter.Excel;
+
+namespace CzhERP.Application;
+
+/// <summary>
+/// 销售退货明细基础输入参数
+/// </summary>
+public class SalReturnItemBaseInput
+{
+    /// <summary>
+    /// 主键Id
+    /// </summary>
+    public virtual long? Id { get; set; }
+    
+    /// <summary>
+    /// 退货单ID
+    /// </summary>
+    [Required(ErrorMessage = "退货单ID不能为空")]
+    public virtual long? ReturnId { get; set; }
+    
+    /// <summary>
+    /// 出库明细ID
+    /// </summary>
+    public virtual long? OutboundItemId { get; set; }
+    
+    /// <summary>
+    /// 物料ID
+    /// </summary>
+    [Required(ErrorMessage = "物料ID不能为空")]
+    public virtual long? MaterialId { get; set; }
+    
+    /// <summary>
+    /// 物料编码
+    /// </summary>
+    [Required(ErrorMessage = "物料编码不能为空")]
+    public virtual string MaterialCode { get; set; }
+    
+    /// <summary>
+    /// 物料名称
+    /// </summary>
+    [Required(ErrorMessage = "物料名称不能为空")]
+    public virtual string MaterialName { get; set; }
+    
+    /// <summary>
+    /// 规格型号
+    /// </summary>
+    public virtual string? Spec { get; set; }
+    
+    /// <summary>
+    /// 单位
+    /// </summary>
+    [Required(ErrorMessage = "单位不能为空")]
+    public virtual string Unit { get; set; }
+    
+    /// <summary>
+    /// 退货数量
+    /// </summary>
+    [Required(ErrorMessage = "退货数量不能为空")]
+    public virtual decimal? ReturnQuantity { get; set; }
+    
+    /// <summary>
+    /// 检验结果
+    /// </summary>
+    public virtual string? InspectResult { get; set; }
+    
+    /// <summary>
+    /// 检验备注
+    /// </summary>
+    public virtual string? InspectRemark { get; set; }
+    
+    /// <summary>
+    /// 单位成本
+    /// </summary>
+    [Required(ErrorMessage = "单位成本不能为空")]
+    public virtual decimal? UnitCost { get; set; }
+    
+    /// <summary>
+    /// 金额
+    /// </summary>
+    [Required(ErrorMessage = "金额不能为空")]
+    public virtual decimal? Amount { get; set; }
+    
+    /// <summary>
+    /// 排序
+    /// </summary>
+    [Required(ErrorMessage = "排序不能为空")]
+    public virtual int? SortOrder { get; set; }
+    
+}
+
+/// <summary>
+/// 销售退货明细分页查询输入参数
+/// </summary>
+public class PageSalReturnItemInput : BasePageInput
+{
+    /// <summary>
+    /// 退货单ID
+    /// </summary>
+    public long? ReturnId { get; set; }
+    
+    /// <summary>
+    /// 出库明细ID
+    /// </summary>
+    public long? OutboundItemId { get; set; }
+    
+    /// <summary>
+    /// 物料ID
+    /// </summary>
+    public long? MaterialId { get; set; }
+    
+    /// <summary>
+    /// 物料编码
+    /// </summary>
+    public string MaterialCode { get; set; }
+    
+    /// <summary>
+    /// 物料名称
+    /// </summary>
+    public string MaterialName { get; set; }
+    
+    /// <summary>
+    /// 规格型号
+    /// </summary>
+    public string? Spec { get; set; }
+    
+    /// <summary>
+    /// 单位
+    /// </summary>
+    public string Unit { get; set; }
+    
+    /// <summary>
+    /// 退货数量
+    /// </summary>
+    public decimal? ReturnQuantity { get; set; }
+    
+    /// <summary>
+    /// 检验结果
+    /// </summary>
+    public string? InspectResult { get; set; }
+    
+    /// <summary>
+    /// 检验备注
+    /// </summary>
+    public string? InspectRemark { get; set; }
+    
+    /// <summary>
+    /// 单位成本
+    /// </summary>
+    public decimal? UnitCost { get; set; }
+    
+    /// <summary>
+    /// 金额
+    /// </summary>
+    public decimal? Amount { get; set; }
+    
+    /// <summary>
+    /// 排序
+    /// </summary>
+    public int? SortOrder { get; set; }
+    
+    /// <summary>
+    /// 选中主键列表
+    /// </summary>
+     public List<long> SelectKeyList { get; set; }
+}
+
+/// <summary>
+/// 销售退货明细增加输入参数
+/// </summary>
+public class AddSalReturnItemInput
+{
+    /// <summary>
+    /// 退货单ID
+    /// </summary>
+    [Required(ErrorMessage = "退货单ID不能为空")]
+    public long? ReturnId { get; set; }
+    
+    /// <summary>
+    /// 出库明细ID
+    /// </summary>
+    public long? OutboundItemId { get; set; }
+    
+    /// <summary>
+    /// 物料ID
+    /// </summary>
+    [Required(ErrorMessage = "物料ID不能为空")]
+    public long? MaterialId { get; set; }
+    
+    /// <summary>
+    /// 物料编码
+    /// </summary>
+    [Required(ErrorMessage = "物料编码不能为空")]
+    [MaxLength(50, ErrorMessage = "物料编码字符长度不能超过50")]
+    public string MaterialCode { get; set; }
+    
+    /// <summary>
+    /// 物料名称
+    /// </summary>
+    [Required(ErrorMessage = "物料名称不能为空")]
+    [MaxLength(100, ErrorMessage = "物料名称字符长度不能超过100")]
+    public string MaterialName { get; set; }
+    
+    /// <summary>
+    /// 规格型号
+    /// </summary>
+    [MaxLength(100, ErrorMessage = "规格型号字符长度不能超过100")]
+    public string? Spec { get; set; }
+    
+    /// <summary>
+    /// 单位
+    /// </summary>
+    [Required(ErrorMessage = "单位不能为空")]
+    [MaxLength(20, ErrorMessage = "单位字符长度不能超过20")]
+    public string Unit { get; set; }
+    
+    /// <summary>
+    /// 退货数量
+    /// </summary>
+    [Required(ErrorMessage = "退货数量不能为空")]
+    public decimal? ReturnQuantity { get; set; }
+    
+    /// <summary>
+    /// 检验结果
+    /// </summary>
+    [MaxLength(20, ErrorMessage = "检验结果字符长度不能超过20")]
+    public string? InspectResult { get; set; }
+    
+    /// <summary>
+    /// 检验备注
+    /// </summary>
+    [MaxLength(500, ErrorMessage = "检验备注字符长度不能超过500")]
+    public string? InspectRemark { get; set; }
+    
+    /// <summary>
+    /// 单位成本
+    /// </summary>
+    [Required(ErrorMessage = "单位成本不能为空")]
+    public decimal? UnitCost { get; set; }
+    
+    /// <summary>
+    /// 金额
+    /// </summary>
+    [Required(ErrorMessage = "金额不能为空")]
+    public decimal? Amount { get; set; }
+    
+    /// <summary>
+    /// 排序
+    /// </summary>
+    [Required(ErrorMessage = "排序不能为空")]
+    public int? SortOrder { get; set; }
+    
+}
+
+/// <summary>
+/// 销售退货明细删除输入参数
+/// </summary>
+public class DeleteSalReturnItemInput
+{
+    /// <summary>
+    /// 主键Id
+    /// </summary>
+    [Required(ErrorMessage = "主键Id不能为空")]
+    public long? Id { get; set; }
+    
+}
+
+/// <summary>
+/// 销售退货明细更新输入参数
+/// </summary>
+public class UpdateSalReturnItemInput
+{
+    /// <summary>
+    /// 主键Id
+    /// </summary>    
+    [Required(ErrorMessage = "主键Id不能为空")]
+    public long? Id { get; set; }
+    
+    /// <summary>
+    /// 退货单ID
+    /// </summary>    
+    [Required(ErrorMessage = "退货单ID不能为空")]
+    public long? ReturnId { get; set; }
+    
+    /// <summary>
+    /// 出库明细ID
+    /// </summary>    
+    public long? OutboundItemId { get; set; }
+    
+    /// <summary>
+    /// 物料ID
+    /// </summary>    
+    [Required(ErrorMessage = "物料ID不能为空")]
+    public long? MaterialId { get; set; }
+    
+    /// <summary>
+    /// 物料编码
+    /// </summary>    
+    [Required(ErrorMessage = "物料编码不能为空")]
+    [MaxLength(50, ErrorMessage = "物料编码字符长度不能超过50")]
+    public string MaterialCode { get; set; }
+    
+    /// <summary>
+    /// 物料名称
+    /// </summary>    
+    [Required(ErrorMessage = "物料名称不能为空")]
+    [MaxLength(100, ErrorMessage = "物料名称字符长度不能超过100")]
+    public string MaterialName { get; set; }
+    
+    /// <summary>
+    /// 规格型号
+    /// </summary>    
+    [MaxLength(100, ErrorMessage = "规格型号字符长度不能超过100")]
+    public string? Spec { get; set; }
+    
+    /// <summary>
+    /// 单位
+    /// </summary>    
+    [Required(ErrorMessage = "单位不能为空")]
+    [MaxLength(20, ErrorMessage = "单位字符长度不能超过20")]
+    public string Unit { get; set; }
+    
+    /// <summary>
+    /// 退货数量
+    /// </summary>    
+    [Required(ErrorMessage = "退货数量不能为空")]
+    public decimal? ReturnQuantity { get; set; }
+    
+    /// <summary>
+    /// 检验结果
+    /// </summary>    
+    [MaxLength(20, ErrorMessage = "检验结果字符长度不能超过20")]
+    public string? InspectResult { get; set; }
+    
+    /// <summary>
+    /// 检验备注
+    /// </summary>    
+    [MaxLength(500, ErrorMessage = "检验备注字符长度不能超过500")]
+    public string? InspectRemark { get; set; }
+    
+    /// <summary>
+    /// 单位成本
+    /// </summary>    
+    [Required(ErrorMessage = "单位成本不能为空")]
+    public decimal? UnitCost { get; set; }
+    
+    /// <summary>
+    /// 金额
+    /// </summary>    
+    [Required(ErrorMessage = "金额不能为空")]
+    public decimal? Amount { get; set; }
+    
+    /// <summary>
+    /// 排序
+    /// </summary>    
+    [Required(ErrorMessage = "排序不能为空")]
+    public int? SortOrder { get; set; }
+    
+}
+
+/// <summary>
+/// 销售退货明细主键查询输入参数
+/// </summary>
+public class QueryByIdSalReturnItemInput : DeleteSalReturnItemInput
+{
+}
+
+/// <summary>
+/// 销售退货明细数据导入实体
+/// </summary>
+[ExcelImporter(SheetIndex = 1, IsOnlyErrorRows = true)]
+public class ImportSalReturnItemInput : BaseImportInput
+{
+    /// <summary>
+    /// 退货单ID
+    /// </summary>
+    [ImporterHeader(Name = "*退货单ID")]
+    [ExporterHeader("*退货单ID", Format = "", Width = 25, IsBold = true)]
+    public long? ReturnId { get; set; }
+    
+    /// <summary>
+    /// 出库明细ID
+    /// </summary>
+    [ImporterHeader(Name = "出库明细ID")]
+    [ExporterHeader("出库明细ID", Format = "", Width = 25, IsBold = true)]
+    public long? OutboundItemId { get; set; }
+    
+    /// <summary>
+    /// 物料ID
+    /// </summary>
+    [ImporterHeader(Name = "*物料ID")]
+    [ExporterHeader("*物料ID", Format = "", Width = 25, IsBold = true)]
+    public long? MaterialId { get; set; }
+    
+    /// <summary>
+    /// 物料编码
+    /// </summary>
+    [ImporterHeader(Name = "*物料编码")]
+    [ExporterHeader("*物料编码", Format = "", Width = 25, IsBold = true)]
+    public string MaterialCode { get; set; }
+    
+    /// <summary>
+    /// 物料名称
+    /// </summary>
+    [ImporterHeader(Name = "*物料名称")]
+    [ExporterHeader("*物料名称", Format = "", Width = 25, IsBold = true)]
+    public string MaterialName { get; set; }
+    
+    /// <summary>
+    /// 规格型号
+    /// </summary>
+    [ImporterHeader(Name = "规格型号")]
+    [ExporterHeader("规格型号", Format = "", Width = 25, IsBold = true)]
+    public string? Spec { get; set; }
+    
+    /// <summary>
+    /// 单位
+    /// </summary>
+    [ImporterHeader(Name = "*单位")]
+    [ExporterHeader("*单位", Format = "", Width = 25, IsBold = true)]
+    public string Unit { get; set; }
+    
+    /// <summary>
+    /// 退货数量
+    /// </summary>
+    [ImporterHeader(Name = "*退货数量")]
+    [ExporterHeader("*退货数量", Format = "", Width = 25, IsBold = true)]
+    public decimal? ReturnQuantity { get; set; }
+    
+    /// <summary>
+    /// 检验结果
+    /// </summary>
+    [ImporterHeader(Name = "检验结果")]
+    [ExporterHeader("检验结果", Format = "", Width = 25, IsBold = true)]
+    public string? InspectResult { get; set; }
+    
+    /// <summary>
+    /// 检验备注
+    /// </summary>
+    [ImporterHeader(Name = "检验备注")]
+    [ExporterHeader("检验备注", Format = "", Width = 25, IsBold = true)]
+    public string? InspectRemark { get; set; }
+    
+    /// <summary>
+    /// 单位成本
+    /// </summary>
+    [ImporterHeader(Name = "*单位成本")]
+    [ExporterHeader("*单位成本", Format = "", Width = 25, IsBold = true)]
+    public decimal? UnitCost { get; set; }
+    
+    /// <summary>
+    /// 金额
+    /// </summary>
+    [ImporterHeader(Name = "*金额")]
+    [ExporterHeader("*金额", Format = "", Width = 25, IsBold = true)]
+    public decimal? Amount { get; set; }
+    
+    /// <summary>
+    /// 排序
+    /// </summary>
+    [ImporterHeader(Name = "*排序")]
+    [ExporterHeader("*排序", Format = "", Width = 25, IsBold = true)]
+    public int? SortOrder { get; set; }
+    
+}
